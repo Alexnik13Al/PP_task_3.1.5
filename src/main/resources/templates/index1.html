@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+</head>
+<body>
+<h1>User List</h1>
+
+<table th:border="1" th:cellpadding="5">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Roles</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:each="role:${user.getRoles()}" th:text="${role.getName().replace('ROLE_', '')}"></td>
+        <td>
+            <form method="get" th:action="@{/admin/updateuser/{id}(id=${user.getId()})}">
+                <input type="submit" value="Update"/>
+            </form>
+            <br/>
+            <form th:method="DELETE" th:action="@{/admin/delete/{id}(id=${user.id})}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<form action="/admin/adduser" target="_blank">
+    <button>Add new user</button>
+</form>
+<br/>
+<form th:action="@{/logout}" method="get">
+    <button type="submit">Logout</button>
+</form>
+</body>
+</html>
