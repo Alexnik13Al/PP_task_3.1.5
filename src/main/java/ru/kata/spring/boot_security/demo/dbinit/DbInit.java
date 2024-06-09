@@ -27,8 +27,8 @@
 //        Role user = new Role("ROLE_USER");
 //        roleService.addRole(admin);
 //        roleService.addRole(user);
-//        userService.addUser(new User("admin", "admin@admin.ru", "100", Set.of(admin),"Alex","Sidorov"));
-//        userService.addUser(new User("user","user@user.ru","100", Set.of(user),"Igor", "Petrov"));
+//        userService.addUser(new User("admin", "AlexSidorov@admin.ru", "100", Set.of(admin),"Alex","Sidorov"));
+//        userService.addUser(new User("user","IgorPetrov@user.ru","100", Set.of(user),"Igor", "Petrov"));
 //
 //
 //    }

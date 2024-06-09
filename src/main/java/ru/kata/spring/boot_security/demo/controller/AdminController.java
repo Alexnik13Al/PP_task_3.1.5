@@ -4,15 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Set;
 
 
 @Controller
@@ -55,7 +50,7 @@ public class AdminController {
 
     @PostMapping("/updateuser/{id}")
     public String updateUser(@PathVariable("id") Long id, @ModelAttribute("user") User user) {
-        userService.updateUser(user);
+        userService.updateUser(user,id);
         return "redirect:/admin";
     }
 
