@@ -8,6 +8,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.security.Principal;
 
 
 @Controller
@@ -23,8 +24,13 @@ public class AdminController {
     }
 
     @GetMapping("")
-    public String getAllUsers(Model model) {
+    public String getAllUsers(Model model, Principal principal) {
         model.addAttribute("users", userService.getAllUsers());
+        User user = userService.findByEmail(principal.getName());
+        model.addAttribute("user",user);
+        model.addAttribute("page","PAGE_ADMIN");
+        model.addAttribute("newUser",new User());
+        model.addAttribute("roles",roleService.getRoles());
         return "index1";
     }
 
@@ -32,7 +38,7 @@ public class AdminController {
     public String createUserForm(User user,Model model) {
         model.addAttribute("user",user);
         model.addAttribute("roles", roleService.getRoles());
-        return "adduser";
+        return "index1";
     }
 
     @PostMapping("/adduser")

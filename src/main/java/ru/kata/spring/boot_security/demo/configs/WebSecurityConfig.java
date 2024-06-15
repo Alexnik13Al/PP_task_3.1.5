@@ -1,11 +1,10 @@
 package ru.kata.spring.boot_security.demo.configs;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.security.SecureRandom;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import ru.kata.spring.boot_security.demo.service.UserService;
-
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -34,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
                 .authorizeRequests()
                 .antMatchers("/", "/index").permitAll()
@@ -41,22 +40,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
+                .csrf().disable()
                 .formLogin()
+                .loginPage("/login")
+                //.loginProcessingUrl("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
                 .successHandler(successUserHandler)
                 .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("logout")
-                .logoutSuccessHandler(logoutSuccessHandler())
-                .permitAll();
+//                .logoutUrl("logout")
+//                .logoutSuccessHandler(logoutSuccessHandler())
+                .permitAll()
+                .and()
+         .exceptionHandling()
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                .accessDeniedHandler(new AccessDeniedHandlerImpl());
     }
 
-    @Bean
-    public LogoutSuccessHandler logoutSuccessHandler() {
-        SimpleUrlLogoutSuccessHandler handler = new SimpleUrlLogoutSuccessHandler();
-        handler.setUseReferer(true);
-        return handler;
-    }
+//    @Bean
+//    public LogoutSuccessHandler logoutSuccessHandler() {
+//        SimpleUrlLogoutSuccessHandler handler = new SimpleUrlLogoutSuccessHandler();
+//        handler.setUseReferer(true);
+//
+//        logger.debug("User logged out successfully.");
+//
+//        return handler;
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -74,4 +85,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults(""); // Remove the default ROLE_ prefix
     }
+
 }

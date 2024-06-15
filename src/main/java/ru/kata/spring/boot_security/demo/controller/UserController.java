@@ -25,14 +25,14 @@ public class UserController {
 
     @GetMapping("")
     public String getUser(Model model, Principal principal) {
-        logger.info("Attempting to retrieve user with username: {}", principal.getName());
-        User user = userService.findByUsername(principal.getName());
+
+        User user = userService.findByEmail(principal.getName());
         if (user == null) {
-            logger.warn("User not found for username: {}", principal.getName());
+            System.out.println("User not found for username: {}");
             return "error";
         }
-        model.addAttribute("users", user);
-        logger.info("User retrieved successfully: {}", user);
+        model.addAttribute("user", user);
+        model.addAttribute("page", "PAGE_USER");
         return "user";
     }
 }
