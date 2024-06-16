@@ -43,31 +43,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin()
                 .loginPage("/login")
-                //.loginProcessingUrl("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .successHandler(successUserHandler)
                 .permitAll()
                 .and()
                 .logout()
-//                .logoutUrl("logout")
-//                .logoutSuccessHandler(logoutSuccessHandler())
                 .permitAll()
                 .and()
          .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .accessDeniedHandler(new AccessDeniedHandlerImpl());
     }
-
-//    @Bean
-//    public LogoutSuccessHandler logoutSuccessHandler() {
-//        SimpleUrlLogoutSuccessHandler handler = new SimpleUrlLogoutSuccessHandler();
-//        handler.setUseReferer(true);
-//
-//        logger.debug("User logged out successfully.");
-//
-//        return handler;
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -83,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults(""); // Remove the default ROLE_ prefix
+        return new GrantedAuthorityDefaults("");
     }
 
 }

@@ -13,33 +13,8 @@ public class LoginController {
         this.userService = userService;
     }
 
-//    @Autowired
-//    public void setUserService(UserService userService) {
-//        this.userService = userService;
-//    }
-
     @GetMapping("/login")
     public String loginPage() {
         return "login";
     }
-
-//    @PostMapping("/authenticate")
-//    public String authenticateUser(@RequestParam String email, @RequestParam String password) {
-//        System.out.println("Starting authentication process...");
-//
-//        // Querying the user
-//        User user = userService.findByEmail(email);
-//
-//        if (user == null) {
-//            System.out.println("User not found for email: " + email);
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//
-//        System.out.println("User found: " + user.getEmail());
-//
-//        System.out.println("Authentication successful for user: " + user.getEmail());
-//
-//        // Redirect to the login page
-//        return "redirect:/login";
-//    }
 }
