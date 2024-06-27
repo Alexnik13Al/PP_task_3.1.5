@@ -3,6 +3,8 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +13,8 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.security.Principal;
 
 
-@Controller
-@RequestMapping("user")
+@RestController
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -23,16 +25,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("")
-    public String getUser(Model model, Principal principal) {
-
-        User user = userService.findByEmail(principal.getName());
-        if (user == null) {
-            System.out.println("User not found for username: {}");
-            return "error";
-        }
-        model.addAttribute("user", user);
-        model.addAttribute("page", "PAGE_USER");
-        return "user";
+    @GetMapping
+    public ResponseEntity<User> getUser(Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
