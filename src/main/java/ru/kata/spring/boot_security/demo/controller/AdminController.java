@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.stylesheets.LinkStyle;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -27,18 +28,20 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(userService.getUser(id));
+        User user = userService.getUser(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/addUser")
     public ResponseEntity<HttpStatus> addUser(@RequestBody User user) {
+
         userService.addUser(user);
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
@@ -46,14 +49,19 @@ public class AdminController {
     @PutMapping("/updateUser/{id}")
     public ResponseEntity<HttpStatus> updateUser(@PathVariable("id") Long id,
                                                  @RequestBody User user) {
+        user.setId(id);
         userService.updateUser(user,id);
-    return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteUser/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @GetMapping("/roles")
+    public List<Role> getRoles() {
+        return roleService.getRoles();
+    }
 }

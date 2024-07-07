@@ -25,12 +25,11 @@
 <div class="container-fluid" style="padding: 0;">
     <nav class="navbar navbar-dark bg-dark" style="border-radius: 0">
         <div class="container-fluid text-white" style="padding: 0;">
-            <h4><span id="navbar-email"></span> <span>with role: </span> <span id="navbar-roles"></span></h4>
+            <h4><span id="navbar-email"></span> <span> with role: </span> <span id="navbar-roles"></span></h4>
             <a class="btn btn-dark text-secondary" aria-current="page" th:href="@{/logout}">Logout</a>
         </div>
     </nav>
 </div>
-
 
 <br>
 <div class="container-fluid ">
@@ -44,7 +43,6 @@
                     </li>
                 </ul>
             </div>
-
         </nav>
 
         <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 ">
@@ -59,12 +57,12 @@
                     <table class="table table-striped border-top">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
                         </tr>
                         </thead>
                         <tbody id="usertable">
@@ -79,3 +77,5 @@
 </body>
 
 </html>
+
+

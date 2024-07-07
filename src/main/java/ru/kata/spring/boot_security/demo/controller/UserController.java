@@ -26,8 +26,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<User> getUser(Principal principal) {
-        User user = userService.findByUsername(principal.getName());
+    public ResponseEntity<User> userInfo(Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
