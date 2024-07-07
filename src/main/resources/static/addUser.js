@@ -1,8 +1,6 @@
-const url ='/api/admin'
-
 async function newUser() {
     try {
-        const response = await fetch(url+'/roles')
+        const response = await fetch('/api/admin/roles')
         const roles = await response.json()
         roles.forEach(role => {
             let element = document.createElement('option')
@@ -23,7 +21,7 @@ async function newUser() {
                     break
                 }
             }
-            fetch(url+'/addUser', {
+            fetch('/api/admin/addUser', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -36,7 +34,6 @@ async function newUser() {
                 })
             }).then(() => {
                 formAddNewUser.reset()
-                // window.location.assign("http://localhost:8080/admin");
                 $('#home-tab').click();
                 allUsers()
             })
