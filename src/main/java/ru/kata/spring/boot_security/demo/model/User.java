@@ -1,7 +1,10 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
@@ -41,7 +44,6 @@ public class User implements UserDetails {
 
     @Column(name = "password")
     private String password;
-
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id" ),
@@ -94,6 +96,7 @@ public class User implements UserDetails {
     }
 
     public Set<Role> getRoles() {
+//        Hibernate.initialize(roles);
         return roles;
     }
 
